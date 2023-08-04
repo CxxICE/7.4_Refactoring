@@ -10,13 +10,16 @@
 class Shape
 {
 public:
-	static const int line = 0;
-	static const int sqr = 1;
-	static const int cube = 2;
 	Shape() = default;
 	Shape(ShapeType _type, std::initializer_list<Point> list);
 	
 	ShapeType getType() { return type; }
+
+	Shape shift(int m, int n, int k);
+	Shape scaleX(int a);
+	Shape scaleY(int d);
+	Shape scaleZ(int e);
+	Shape scale(int s);
 
 	ShapeType type;
 	Point p1 = { 0,0,0 },
@@ -27,7 +30,8 @@ public:
 		p6 = { 0,0,0 },
 		p7 = { 0,0,0 },
 		p8 = { 0,0,0 };
+	
+	
 	double volume;
 	double square;
-
 };

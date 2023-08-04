@@ -129,13 +129,11 @@
   <ItemGroup>
     <ClCompile Include="7.4_Refactoring.cpp" />
     <ClCompile Include="shape.cpp" />
-    <ClCompile Include="transform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Point.h" />
     <ClInclude Include="shape.h" />
     <ClInclude Include="ShapeType.h" />
-    <ClInclude Include="transform.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
