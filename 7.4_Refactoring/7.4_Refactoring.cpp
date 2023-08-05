@@ -2,16 +2,19 @@
 #include <cmath>
 
 #include "shape.h"
+#include "Line.h"
+#include "Sqr.h"
+#include "Cube.h"
 
 #include "ShapeType.h"
 #include "Point.h"
 
-void testShift(Shape *line, Shape *sqr, Shape *cube)
+void testShift(std::shared_ptr<Shape> line, std::shared_ptr<Shape> sqr, std::shared_ptr<Shape> cube)
 {
-	Shape tmp;
+	std::unique_ptr<Shape> tmp;
 		
-	tmp = line->shift(1, 1, 1);
-	if (tmp.p1.x == 1 + line->p1.x && tmp.p1.y == 1 + line->p1.y)
+	tmp.reset(line->shift(1, 1, 1));
+	if (tmp->getX(1) == 1 + line->getX(1) && tmp->getY(1) == 1 + line->getY(1))
 	{
 		std::cout << "\x1B[32mline_Shift is OK\x1B[0m\n";
 	}
@@ -20,11 +23,11 @@ void testShift(Shape *line, Shape *sqr, Shape *cube)
 		std::cout << "\x1B[31mline_Shift is Failed\x1B[0m\n";
 	}	
 	
-	tmp = sqr->shift(1, 1, 1);
-	if (tmp.p1.x == 1 + sqr->p1.x && tmp.p1.y == 1 + sqr->p1.y && 
-		tmp.p2.x == 1 + sqr->p2.x && tmp.p2.y == 1 + sqr->p2.y &&
-		tmp.p3.x == 1 + sqr->p3.x && tmp.p3.y == 1 + sqr->p3.y && 
-		tmp.p4.x == 1 + sqr->p4.x && tmp.p4.y == 1 + sqr->p4.y)
+	tmp.reset(sqr->shift(1, 1, 1));
+	if (tmp->getX(1) == 1 + sqr->getX(1) && tmp->getY(1) == 1 + sqr->getY(1) && 
+		tmp->getX(2) == 1 + sqr->getX(2) && tmp->getY(2) == 1 + sqr->getY(2) &&
+		tmp->getX(3) == 1 + sqr->getX(3) && tmp->getY(3) == 1 + sqr->getY(3) && 
+		tmp->getX(4) == 1 + sqr->getX(4) && tmp->getY(4) == 1 + sqr->getY(4))
 	{
 		std::cout << "\x1B[32msqr_Shift is OK\x1B[0m\n";
 	}
@@ -33,15 +36,15 @@ void testShift(Shape *line, Shape *sqr, Shape *cube)
 		std::cout << "\x1B[31msqr_Shift is Failed\x1B[0m\n";
 	}	
 	
-	tmp = cube->shift(1, 1, 1);
-	if (tmp.p1.x == 1 + cube->p1.x && tmp.p1.y == 1 + cube->p1.y && tmp.p1.z == 1 + cube->p1.z &&
-		tmp.p2.x == 1 + cube->p2.x && tmp.p2.y == 1 + cube->p2.y && tmp.p2.z == 1 + cube->p2.z &&
-		tmp.p3.x == 1 + cube->p3.x && tmp.p3.y == 1 + cube->p3.y && tmp.p3.z == 1 + cube->p3.z &&
-		tmp.p4.x == 1 + cube->p4.x && tmp.p4.y == 1 + cube->p4.y && tmp.p4.z == 1 + cube->p4.z &&
-		tmp.p5.x == 1 + cube->p5.x && tmp.p5.y == 1 + cube->p5.y && tmp.p5.z == 1 + cube->p5.z &&
-		tmp.p6.x == 1 + cube->p6.x && tmp.p6.y == 1 + cube->p6.y && tmp.p6.z == 1 + cube->p6.z &&
-		tmp.p7.x == 1 + cube->p7.x && tmp.p7.y == 1 + cube->p7.y && tmp.p7.z == 1 + cube->p7.z &&
-		tmp.p8.x == 1 + cube->p8.x && tmp.p8.y == 1 + cube->p8.y && tmp.p8.z == 1 + cube->p8.z)
+	tmp.reset(cube->shift(1, 1, 1));
+	if (tmp->getX(1) == 1 + cube->getX(1) && tmp->getY(1) == 1 + cube->getY(1) && tmp->getZ(1) == 1 + cube->getZ(1) &&
+		tmp->getX(2) == 1 + cube->getX(2) && tmp->getY(2) == 1 + cube->getY(2) && tmp->getZ(2) == 1 + cube->getZ(2) &&
+		tmp->getX(3) == 1 + cube->getX(3) && tmp->getY(3) == 1 + cube->getY(3) && tmp->getZ(3) == 1 + cube->getZ(3) &&
+		tmp->getX(4) == 1 + cube->getX(4) && tmp->getY(4) == 1 + cube->getY(4) && tmp->getZ(4) == 1 + cube->getZ(4) &&
+		tmp->getX(5) == 1 + cube->getX(5) && tmp->getY(5) == 1 + cube->getY(5) && tmp->getZ(5) == 1 + cube->getZ(5) &&
+		tmp->getX(6) == 1 + cube->getX(6) && tmp->getY(6) == 1 + cube->getY(6) && tmp->getZ(6) == 1 + cube->getZ(6) &&
+		tmp->getX(7) == 1 + cube->getX(7) && tmp->getY(7) == 1 + cube->getY(7) && tmp->getZ(7) == 1 + cube->getZ(7) &&
+		tmp->getX(8) == 1 + cube->getX(8) && tmp->getY(8) == 1 + cube->getY(8) && tmp->getZ(8) == 1 + cube->getZ(8))
 	{
 		std::cout << "\x1B[32mcube_Shift is OK\x1B[0m\n";
 	}
@@ -52,12 +55,12 @@ void testShift(Shape *line, Shape *sqr, Shape *cube)
 	std::cout << std::endl;
 }
 
-void testScaleX(Shape *line, Shape *sqr, Shape *cube)
+void testScaleX(std::shared_ptr<Shape> line, std::shared_ptr<Shape> sqr, std::shared_ptr<Shape> cube)
 {
-	Shape tmp;
+	std::unique_ptr<Shape> tmp;
 
-	tmp = line->scaleX(2);
-	if (tmp.p1.x == 2 * line->p1.x && tmp.p1.y == line->p1.y)
+	tmp.reset(line->scaleX(2));
+	if (tmp->getX(1) == 2 * line->getX(1) && tmp->getY(1) == line->getY(1))
 	{
 		std::cout << "\x1B[32mline_scaleX is OK\x1B[0m\n";
 	}
@@ -66,11 +69,11 @@ void testScaleX(Shape *line, Shape *sqr, Shape *cube)
 		std::cout << "\x1B[31mline_scaleX is Failed\x1B[0m\n";
 	}
 
-	tmp = sqr->scaleX(2);
-	if (tmp.p1.x == 2 * sqr->p1.x && tmp.p1.y == sqr->p1.y && 
-		tmp.p2.x == 2 * sqr->p2.x && tmp.p2.y == sqr->p2.y &&
-		tmp.p3.x == 2 * sqr->p3.x && tmp.p3.y == sqr->p3.y && 
-		tmp.p4.x == 2 * sqr->p4.x && tmp.p4.y == sqr->p4.y)
+	tmp.reset(sqr->scaleX(2));
+	if (tmp->getX(1) == 2 * sqr->getX(1) && tmp->getY(1) == sqr->getY(1) && 
+		tmp->getX(2) == 2 * sqr->getX(2) && tmp->getY(2) == sqr->getY(2) &&
+		tmp->getX(3) == 2 * sqr->getX(3) && tmp->getY(3) == sqr->getY(3) && 
+		tmp->getX(4) == 2 * sqr->getX(4) && tmp->getY(4) == sqr->getY(4))
 	{
 		std::cout << "\x1B[32msqr_scaleX is OK\x1B[0m\n";
 	}
@@ -79,15 +82,15 @@ void testScaleX(Shape *line, Shape *sqr, Shape *cube)
 		std::cout << "\x1B[31msqr_scaleX is Failed\x1B[0m\n";
 	}
 
-	tmp = cube->scaleX(2);
-	if (tmp.p1.x == 2 * cube->p1.x && tmp.p1.y == cube->p1.y && tmp.p1.z == cube->p1.z &&
-		tmp.p2.x == 2 * cube->p2.x && tmp.p2.y == cube->p2.y && tmp.p2.z == cube->p2.z &&
-		tmp.p3.x == 2 * cube->p3.x && tmp.p3.y == cube->p3.y && tmp.p3.z == cube->p3.z &&
-		tmp.p4.x == 2 * cube->p4.x && tmp.p4.y == cube->p4.y && tmp.p4.z == cube->p4.z &&
-		tmp.p5.x == 2 * cube->p5.x && tmp.p5.y == cube->p5.y && tmp.p5.z == cube->p5.z &&
-		tmp.p6.x == 2 * cube->p6.x && tmp.p6.y == cube->p6.y && tmp.p6.z == cube->p6.z &&
-		tmp.p7.x == 2 * cube->p7.x && tmp.p7.y == cube->p7.y && tmp.p7.z == cube->p7.z &&
-		tmp.p8.x == 2 * cube->p8.x && tmp.p8.y == cube->p8.y && tmp.p8.z == cube->p8.z)
+	tmp.reset(cube->scaleX(2));
+	if (tmp->getX(1) == 2 * cube->getX(1) && tmp->getY(1) == cube->getY(1) && tmp->getZ(1) == cube->getZ(1) &&
+		tmp->getX(2) == 2 * cube->getX(2) && tmp->getY(2) == cube->getY(2) && tmp->getZ(2) == cube->getZ(2) &&
+		tmp->getX(3) == 2 * cube->getX(3) && tmp->getY(3) == cube->getY(3) && tmp->getZ(3) == cube->getZ(3) &&
+		tmp->getX(4) == 2 * cube->getX(4) && tmp->getY(4) == cube->getY(4) && tmp->getZ(4) == cube->getZ(4) &&
+		tmp->getX(5) == 2 * cube->getX(5) && tmp->getY(5) == cube->getY(5) && tmp->getZ(5) == cube->getZ(5) &&
+		tmp->getX(6) == 2 * cube->getX(6) && tmp->getY(6) == cube->getY(6) && tmp->getZ(6) == cube->getZ(6) &&
+		tmp->getX(7) == 2 * cube->getX(7) && tmp->getY(7) == cube->getY(7) && tmp->getZ(7) == cube->getZ(7) &&
+		tmp->getX(8) == 2 * cube->getX(8) && tmp->getY(8) == cube->getY(8) && tmp->getZ(8) == cube->getZ(8))
 	{
 		std::cout << "\x1B[32mcube_scaleX is OK\x1B[0m\n";
 	}
@@ -98,12 +101,12 @@ void testScaleX(Shape *line, Shape *sqr, Shape *cube)
 	std::cout << std::endl;
 }
 
-void testScaleY(Shape *line, Shape *sqr, Shape *cube)
+void testScaleY(std::shared_ptr<Shape> line, std::shared_ptr<Shape> sqr, std::shared_ptr<Shape> cube)
 {
-	Shape tmp;
+	std::unique_ptr<Shape> tmp;
 
-	tmp = line->scaleY(2);
-	if (tmp.p1.x == line->p1.x && tmp.p1.y == 2 *line->p1.y)
+	tmp.reset(line->scaleY(2));
+	if (tmp->getX(1) == line->getX(1) && tmp->getY(1) == 2 * line->getY(1))
 	{
 		std::cout << "\x1B[32mline_scaleY is OK\x1B[0m\n";
 	}
@@ -112,11 +115,11 @@ void testScaleY(Shape *line, Shape *sqr, Shape *cube)
 		std::cout << "\x1B[31mline_scaleY is Failed\x1B[0m\n";
 	}
 
-	tmp = sqr->scaleY(2);
-	if (tmp.p1.x == sqr->p1.x && tmp.p1.y == 2 * sqr->p1.y && 
-		tmp.p2.x == sqr->p2.x && tmp.p2.y == 2 * sqr->p2.y &&
-		tmp.p3.x == sqr->p3.x && tmp.p3.y == 2 * sqr->p3.y && 
-		tmp.p4.x == sqr->p4.x && tmp.p4.y == 2 * sqr->p4.y)
+	tmp.reset(sqr->scaleY(2));
+	if (tmp->getX(1) == sqr->getX(1) && tmp->getY(1) == 2 * sqr->getY(1) &&
+		tmp->getX(2) == sqr->getX(2) && tmp->getY(2) == 2 * sqr->getY(2) &&
+		tmp->getX(3) == sqr->getX(3) && tmp->getY(3) == 2 * sqr->getY(3) &&
+		tmp->getX(4) == sqr->getX(4) && tmp->getY(4) == 2 * sqr->getY(4))
 	{
 		std::cout << "\x1B[32msqr_scaleY is OK\x1B[0m\n";
 	}
@@ -125,15 +128,15 @@ void testScaleY(Shape *line, Shape *sqr, Shape *cube)
 		std::cout << "\x1B[31msqr_scaleY is Failed\x1B[0m\n";
 	}
 
-	tmp = cube->scaleY(2);
-	if (tmp.p1.x == cube->p1.x && tmp.p1.y == 2 * cube->p1.y && tmp.p1.z == cube->p1.z &&
-		tmp.p2.x == cube->p2.x && tmp.p2.y == 2 * cube->p2.y && tmp.p2.z == cube->p2.z &&
-		tmp.p3.x == cube->p3.x && tmp.p3.y == 2 * cube->p3.y && tmp.p3.z == cube->p3.z &&
-		tmp.p4.x == cube->p4.x && tmp.p4.y == 2 * cube->p4.y && tmp.p4.z == cube->p4.z &&
-		tmp.p5.x == cube->p5.x && tmp.p5.y == 2 * cube->p5.y && tmp.p5.z == cube->p5.z &&
-		tmp.p6.x == cube->p6.x && tmp.p6.y == 2 * cube->p6.y && tmp.p6.z == cube->p6.z &&
-		tmp.p7.x == cube->p7.x && tmp.p7.y == 2 * cube->p7.y && tmp.p7.z == cube->p7.z &&
-		tmp.p8.x == cube->p8.x && tmp.p8.y == 2 * cube->p8.y && tmp.p8.z == cube->p8.z)
+	tmp.reset(cube->scaleY(2));
+	if (tmp->getX(1) == cube->getX(1) && tmp->getY(1) == 2 * cube->getY(1) && tmp->getZ(1) == cube->getZ(1) &&
+		tmp->getX(2) == cube->getX(2) && tmp->getY(2) == 2 * cube->getY(2) && tmp->getZ(2) == cube->getZ(2) &&
+		tmp->getX(3) == cube->getX(3) && tmp->getY(3) == 2 * cube->getY(3) && tmp->getZ(3) == cube->getZ(3) &&
+		tmp->getX(4) == cube->getX(4) && tmp->getY(4) == 2 * cube->getY(4) && tmp->getZ(4) == cube->getZ(4) &&
+		tmp->getX(5) == cube->getX(5) && tmp->getY(5) == 2 * cube->getY(5) && tmp->getZ(5) == cube->getZ(5) &&
+		tmp->getX(6) == cube->getX(6) && tmp->getY(6) == 2 * cube->getY(6) && tmp->getZ(6) == cube->getZ(6) &&
+		tmp->getX(7) == cube->getX(7) && tmp->getY(7) == 2 * cube->getY(7) && tmp->getZ(7) == cube->getZ(7) &&
+		tmp->getX(8) == cube->getX(8) && tmp->getY(8) == 2 * cube->getY(8) && tmp->getZ(8) == cube->getZ(8))
 	{
 		std::cout << "\x1B[32mcube_scaleY is OK\x1B[0m\n";
 	}
@@ -144,12 +147,12 @@ void testScaleY(Shape *line, Shape *sqr, Shape *cube)
 	std::cout << std::endl;
 }
 
-void testScaleZ(Shape *line, Shape *sqr, Shape *cube)
+void testScaleZ(std::shared_ptr<Shape> line, std::shared_ptr<Shape> sqr, std::shared_ptr<Shape> cube)
 {
-	Shape tmp;
+	std::unique_ptr<Shape> tmp;
 
-	tmp = line->scaleZ(2);
-	if (tmp.p1.x == line->p1.x && tmp.p1.y == line->p1.y)
+	tmp.reset(line->scaleZ(2));
+	if (tmp->getX(1) == line->getX(1) && tmp->getY(1) == line->getY(1))
 	{
 		std::cout << "\x1B[32mline_scaleZ is OK\x1B[0m\n";
 	}
@@ -158,11 +161,11 @@ void testScaleZ(Shape *line, Shape *sqr, Shape *cube)
 		std::cout << "\x1B[31mline_scaleZ is Failed\x1B[0m\n";
 	}
 
-	tmp = sqr->scaleZ(2);
-	if (tmp.p1.x == sqr->p1.x && tmp.p1.y == sqr->p1.y && 
-		tmp.p2.x == sqr->p2.x && tmp.p2.y == sqr->p2.y &&
-		tmp.p3.x == sqr->p3.x && tmp.p3.y == sqr->p3.y && 
-		tmp.p4.x == sqr->p4.x && tmp.p4.y == sqr->p4.y)
+	tmp.reset(sqr->scaleZ(2));
+	if (tmp->getX(1) == sqr->getX(1) && tmp->getY(1) == sqr->getY(1) &&
+		tmp->getX(2) == sqr->getX(2) && tmp->getY(2) == sqr->getY(2) &&
+		tmp->getX(3) == sqr->getX(3) && tmp->getY(3) == sqr->getY(3) &&
+		tmp->getX(4) == sqr->getX(4) && tmp->getY(4) == sqr->getY(4))
 	{
 		std::cout << "\x1B[32msqr_scaleZ is OK\x1B[0m\n";
 	}
@@ -171,15 +174,15 @@ void testScaleZ(Shape *line, Shape *sqr, Shape *cube)
 		std::cout << "\x1B[31msqr_scaleZ is Failed\x1B[0m\n";
 	}
 
-	tmp = cube->scaleZ(2);
-	if (tmp.p1.x == cube->p1.x && tmp.p1.y == cube->p1.y && tmp.p1.z == 2 * cube->p1.z &&
-		tmp.p2.x == cube->p2.x && tmp.p2.y == cube->p2.y && tmp.p2.z == 2 * cube->p2.z &&
-		tmp.p3.x == cube->p3.x && tmp.p3.y == cube->p3.y && tmp.p3.z == 2 * cube->p3.z &&
-		tmp.p4.x == cube->p4.x && tmp.p4.y == cube->p4.y && tmp.p4.z == 2 * cube->p4.z &&
-		tmp.p5.x == cube->p5.x && tmp.p5.y == cube->p5.y && tmp.p5.z == 2 * cube->p5.z &&
-		tmp.p6.x == cube->p6.x && tmp.p6.y == cube->p6.y && tmp.p6.z == 2 * cube->p6.z &&
-		tmp.p7.x == cube->p7.x && tmp.p7.y == cube->p7.y && tmp.p7.z == 2 * cube->p7.z &&
-		tmp.p8.x == cube->p8.x && tmp.p8.y == cube->p8.y && tmp.p8.z == 2 * cube->p8.z)
+	tmp.reset(cube->scaleZ(2));
+	if (tmp->getX(1) == cube->getX(1) && tmp->getY(1) == cube->getY(1) && tmp->getZ(1) == 2 * cube->getZ(1) &&
+		tmp->getX(2) == cube->getX(2) && tmp->getY(2) == cube->getY(2) && tmp->getZ(2) == 2 * cube->getZ(2) &&
+		tmp->getX(3) == cube->getX(3) && tmp->getY(3) == cube->getY(3) && tmp->getZ(3) == 2 * cube->getZ(3) &&
+		tmp->getX(4) == cube->getX(4) && tmp->getY(4) == cube->getY(4) && tmp->getZ(4) == 2 * cube->getZ(4) &&
+		tmp->getX(5) == cube->getX(5) && tmp->getY(5) == cube->getY(5) && tmp->getZ(5) == 2 * cube->getZ(5) &&
+		tmp->getX(6) == cube->getX(6) && tmp->getY(6) == cube->getY(6) && tmp->getZ(6) == 2 * cube->getZ(6) &&
+		tmp->getX(7) == cube->getX(7) && tmp->getY(7) == cube->getY(7) && tmp->getZ(7) == 2 * cube->getZ(7) &&
+		tmp->getX(8) == cube->getX(8) && tmp->getY(8) == cube->getY(8) && tmp->getZ(8) == 2 * cube->getZ(8))
 	{
 		std::cout << "\x1B[32mcube_scaleZ is OK\x1B[0m\n";
 	}
@@ -190,12 +193,12 @@ void testScaleZ(Shape *line, Shape *sqr, Shape *cube)
 	std::cout << std::endl;
 }
 
-void testScale(Shape *line, Shape *sqr, Shape *cube)
+void testScale(std::shared_ptr<Shape> line, std::shared_ptr<Shape> sqr, std::shared_ptr<Shape> cube)
 {
-	Shape tmp;
+	std::unique_ptr<Shape> tmp;
 
-	tmp = line->scale(2);
-	if (tmp.p1.x == line->p1.x / 2 && tmp.p1.y == line->p1.y / 2)
+	tmp.reset(line->scale(2));
+	if (tmp->getX(1) == line->getX(1) / 2 && tmp->getY(1) == line->getY(1) / 2)
 	{
 		std::cout << "\x1B[32mline_scale is OK\x1B[0m\n";
 	}
@@ -204,11 +207,11 @@ void testScale(Shape *line, Shape *sqr, Shape *cube)
 		std::cout << "\x1B[31mline_scale is Failed\x1B[0m\n";
 	}
 
-	tmp = sqr->scale(2);
-	if (tmp.p1.x == sqr->p1.x / 2 && tmp.p1.y == sqr->p1.y / 2 && 
-		tmp.p2.x == sqr->p2.x / 2 && tmp.p2.y == sqr->p2.y / 2 &&
-		tmp.p3.x == sqr->p3.x / 2 && tmp.p3.y == sqr->p3.y / 2 && 
-		tmp.p4.x == sqr->p4.x / 2 && tmp.p4.y == sqr->p4.y / 2)
+	tmp.reset(sqr->scale(2));
+	if (tmp->getX(1) == sqr->getX(1) / 2 && tmp->getY(1) == sqr->getY(1) / 2 &&
+		tmp->getX(2) == sqr->getX(2) / 2 && tmp->getY(2) == sqr->getY(2) / 2 &&
+		tmp->getX(3) == sqr->getX(3) / 2 && tmp->getY(3) == sqr->getY(3) / 2 &&
+		tmp->getX(4) == sqr->getX(4) / 2 && tmp->getY(4) == sqr->getY(4) / 2)
 	{
 		std::cout << "\x1B[32msqr_scale is OK\x1B[0m\n";
 	}
@@ -217,15 +220,15 @@ void testScale(Shape *line, Shape *sqr, Shape *cube)
 		std::cout << "\x1B[31msqr_scale is Failed\x1B[0m\n";
 	}
 
-	tmp = cube->scale(2);
-	if (tmp.p1.x == cube->p1.x / 2 && tmp.p1.y == cube->p1.y / 2 && tmp.p1.z == cube->p1.z / 2 &&
-		tmp.p2.x == cube->p2.x / 2 && tmp.p2.y == cube->p2.y / 2 && tmp.p2.z == cube->p2.z / 2 &&
-		tmp.p3.x == cube->p3.x / 2 && tmp.p3.y == cube->p3.y / 2 && tmp.p3.z == cube->p3.z / 2 &&
-		tmp.p4.x == cube->p4.x / 2 && tmp.p4.y == cube->p4.y / 2 && tmp.p4.z == cube->p4.z / 2 &&
-		tmp.p5.x == cube->p5.x / 2 && tmp.p5.y == cube->p5.y / 2 && tmp.p5.z == cube->p5.z / 2 &&
-		tmp.p6.x == cube->p6.x / 2 && tmp.p6.y == cube->p6.y / 2 && tmp.p6.z == cube->p6.z / 2 &&
-		tmp.p7.x == cube->p7.x / 2 && tmp.p7.y == cube->p7.y / 2 && tmp.p7.z == cube->p7.z / 2 &&
-		tmp.p8.x == cube->p8.x / 2 && tmp.p8.y == cube->p8.y / 2 && tmp.p8.z == cube->p8.z / 2)
+	tmp.reset(cube->scale(2));
+	if (tmp->getX(1) == cube->getX(1) / 2 && tmp->getY(1) == cube->getY(1) / 2 && tmp->getZ(1) == cube->getZ(1) / 2 &&
+		tmp->getX(2) == cube->getX(2) / 2 && tmp->getY(2) == cube->getY(2) / 2 && tmp->getZ(2) == cube->getZ(2) / 2 &&
+		tmp->getX(3) == cube->getX(3) / 2 && tmp->getY(3) == cube->getY(3) / 2 && tmp->getZ(3) == cube->getZ(3) / 2 &&
+		tmp->getX(4) == cube->getX(4) / 2 && tmp->getY(4) == cube->getY(4) / 2 && tmp->getZ(4) == cube->getZ(4) / 2 &&
+		tmp->getX(5) == cube->getX(5) / 2 && tmp->getY(5) == cube->getY(5) / 2 && tmp->getZ(5) == cube->getZ(5) / 2 &&
+		tmp->getX(6) == cube->getX(6) / 2 && tmp->getY(6) == cube->getY(6) / 2 && tmp->getZ(6) == cube->getZ(6) / 2 &&
+		tmp->getX(7) == cube->getX(7) / 2 && tmp->getY(7) == cube->getY(7) / 2 && tmp->getZ(7) == cube->getZ(7) / 2 &&
+		tmp->getX(8) == cube->getX(8) / 2 && tmp->getY(8) == cube->getY(8) / 2 && tmp->getZ(8) == cube->getZ(8) / 2)
 	{
 		std::cout << "\x1B[32mcube_scale is OK\x1B[0m\n";
 	}
@@ -247,9 +250,9 @@ void constructorTest()
 			p6 = { 0, 0, 0 },
 			p7 = { 0, 0, 0 },
 			p8 = { 0, 0, 0 };			
-		Shape line(ShapeType::line, { p1, p2, p3, p4 ,p5, p6, p7, p8 });
-		if (line.p1.x == p1.x && line.p1.y == p1.y && line.p1.z == p1.z &&
-			line.p2.x == p2.x && line.p2.y == p2.y && line.p2.z == p2.z)
+		std::unique_ptr<Shape> line(Shape::create(ShapeType::line, { p1, p2, p3, p4 ,p5, p6, p7, p8 }));
+		if (line->getX(1) == p1.x && line->getY(1) == p1.y && line->getZ(1) == p1.z &&
+			line->getX(2) == p2.x && line->getY(2) == p2.y && line->getZ(2) == p2.z)
 		{
 			std::cout << "\x1B[32mline_constructor is OK\x1B[0m\n";
 		}
@@ -257,7 +260,7 @@ void constructorTest()
 		{
 			std::cout << "\x1B[31line_constructor is Failed\x1B[0m\n";
 		}
-		if (line.square == 0)
+		if (line->getSquare() == 0)
 		{
 			std::cout << "\x1B[32mline_square is OK\x1B[0m\n";
 		}
@@ -265,7 +268,7 @@ void constructorTest()
 		{
 			std::cout << "\x1B[31mline_square is Failed\x1B[0m\n";
 		}
-		if (line.volume == 0)
+		if (line->getVolume() == 0)
 		{
 			std::cout << "\x1B[32mline_volume is OK\x1B[0m\n";
 		}
@@ -286,11 +289,11 @@ void constructorTest()
 			p7 = { 0, 0, 0 },
 			p8 = { 0, 0, 0 };
 		
-		Shape sqr(ShapeType::sqr, { p1, p2, p3, p4 ,p5, p6, p7, p8 });
-		if (sqr.p1.x == p1.x && sqr.p1.y == p1.y && sqr.p1.z == p1.z &&
-			sqr.p2.x == p2.x && sqr.p2.y == p2.y && sqr.p2.z == p2.z &&
-			sqr.p3.x == p3.x && sqr.p3.y == p3.y && sqr.p3.z == p3.z &&
-			sqr.p4.x == p4.x && sqr.p4.y == p4.y && sqr.p4.z == p4.z)
+		std::unique_ptr<Shape> sqr(Shape::create(ShapeType::sqr, { p1, p2, p3, p4 ,p5, p6, p7, p8 }));
+		if (sqr->getX(1) == p1.x && sqr->getY(1) == p1.y && sqr->getZ(1) == p1.z &&
+			sqr->getX(2) == p2.x && sqr->getY(2) == p2.y && sqr->getZ(2) == p2.z &&
+			sqr->getX(3) == p3.x && sqr->getY(3) == p3.y && sqr->getZ(3) == p3.z &&
+			sqr->getX(4) == p4.x && sqr->getY(4) == p4.y && sqr->getZ(4) == p4.z)
 		{
 			std::cout << "\x1B[32msqr_constructor is OK\x1B[0m\n";
 		}
@@ -298,7 +301,7 @@ void constructorTest()
 		{
 			std::cout << "\x1B[31msqr_constructor is Failed\x1B[0m\n";
 		}
-		if (sqr.square == std::abs(p1.x - p2.x) * std::abs(p1.y - p2.y))
+		if (sqr->getSquare() == std::abs(p1.x - p2.x) * std::abs(p1.y - p2.y))
 		{
 			std::cout << "\x1B[32msqr_square is OK\x1B[0m\n";
 		}
@@ -306,7 +309,7 @@ void constructorTest()
 		{
 			std::cout << "\x1B[31msqr_square is Failed\x1B[0m\n";
 		}
-		if (sqr.volume == 0)
+		if (sqr->getVolume() == 0)
 		{
 			std::cout << "\x1B[32msqr_volume is OK\x1B[0m\n";
 		}
@@ -326,15 +329,15 @@ void constructorTest()
 			p6 = { 2, 0, 2 },
 			p7 = { 2, 2, 2 },
 			p8 = { 0, 2, 2 };
-		Shape cube(ShapeType::cube, {p1, p2, p3, p4 ,p5, p6, p7, p8});
-		if (cube.p1.x == p1.x && cube.p1.y == p1.y && cube.p1.z == p1.z &&
-			cube.p2.x == p2.x && cube.p2.y == p2.y && cube.p2.z == p2.z &&
-			cube.p3.x == p3.x && cube.p3.y == p3.y && cube.p3.z == p3.z &&
-			cube.p4.x == p4.x && cube.p4.y == p4.y && cube.p4.z == p4.z &&
-			cube.p5.x == p5.x && cube.p5.y == p5.y && cube.p5.z == p5.z &&
-			cube.p6.x == p6.x && cube.p6.y == p6.y && cube.p6.z == p6.z &&
-			cube.p7.x == p7.x && cube.p7.y == p7.y && cube.p7.z == p7.z &&
-			cube.p8.x == p8.x && cube.p8.y == p8.y && cube.p8.z == p8.z)
+		std::unique_ptr<Shape> cube(Shape::create(ShapeType::cube, {p1, p2, p3, p4 ,p5, p6, p7, p8}));
+		if (cube->getX(1) == p1.x && cube->getY(1) == p1.y && cube->getZ(1) == p1.z &&
+			cube->getX(2) == p2.x && cube->getY(2) == p2.y && cube->getZ(2) == p2.z &&
+			cube->getX(3) == p3.x && cube->getY(3) == p3.y && cube->getZ(3) == p3.z &&
+			cube->getX(4) == p4.x && cube->getY(4) == p4.y && cube->getZ(4) == p4.z &&
+			cube->getX(5) == p5.x && cube->getY(5) == p5.y && cube->getZ(5) == p5.z &&
+			cube->getX(6) == p6.x && cube->getY(6) == p6.y && cube->getZ(6) == p6.z &&
+			cube->getX(7) == p7.x && cube->getY(7) == p7.y && cube->getZ(7) == p7.z &&
+			cube->getX(8) == p8.x && cube->getY(8) == p8.y && cube->getZ(8) == p8.z)
 		{
 			std::cout << "\x1B[32mcube_constructor is OK\x1B[0m\n";
 		}
@@ -342,7 +345,7 @@ void constructorTest()
 		{
 			std::cout << "\x1B[31cube_constructor is Failed\x1B[0m\n";
 		}
-		if (cube.square ==	2 * std::abs(p1.x - p2.x) * std::abs(p1.y - p2.y) + 
+		if (cube->getSquare() == 2 * std::abs(p1.x - p2.x) * std::abs(p1.y - p2.y) +
 							2 * std::abs(p1.x - p2.x) * std::abs(p1.z - p2.z) + 
 							2 * std::abs(p1.z - p2.z) * std::abs(p1.y - p2.y))
 		{
@@ -352,7 +355,7 @@ void constructorTest()
 		{
 			std::cout << "\x1B[31mcube_square is Failed\x1B[0m\n";
 		}
-		if (cube.volume == std::abs(p1.x - p2.x) * std::abs(p1.y - p2.y) * std::abs(p1.z - p2.z))
+		if (cube->getVolume() == std::abs(p1.x - p2.x) * std::abs(p1.y - p2.y) * std::abs(p1.z - p2.z))
 		{
 			std::cout << "\x1B[32mcube_volume is OK\x1B[0m\n";
 		}
@@ -368,26 +371,18 @@ void constructorTest()
 int main()
 {
 	setlocale(LC_ALL, "RU");
-	Shape line(ShapeType::line, { 
-		{ 0, 0, 0 }, 
-		{ 2, 2, 0 }, 
-		{ 0, 0, 0 }, 
-		{ 0, 0, 0 }, 
-		{ 0, 0, 0 }, 
-		{ 0, 0, 0 }, 
-		{ 0, 0, 0 }, 
-		{ 0, 0, 0 } 
-		});
-	Shape sqr(ShapeType::sqr,	{ 
+	
+	std::shared_ptr<Shape> line (Shape::create(ShapeType::line, {
+		{ 0, 0, 0 },
+		{ 2, 2, 0 }
+		}));
+	std::shared_ptr<Shape> sqr(Shape::create(ShapeType::sqr, {
 		{ 0, 0, 0 }, 
 		{ 2, 0, 0 }, 
 		{ 2, 2, 0 }, 
-		{ 0, 2, 0 }, 
-		{ 0, 0, 0 }, 
-		{ 0, 0, 0 }, 
-		{ 0, 0, 0 }, 
-		{ 0, 0, 0 } });
-	Shape cube(ShapeType::cube, { 
+		{ 0, 2, 0 } 
+		}));
+	std::shared_ptr<Shape> cube(Shape::create(ShapeType::cube, {
 		{ 0, 0, 0 }, 
 		{ 2, 0, 0 }, 
 		{ 2, 2, 0 }, 
@@ -395,13 +390,13 @@ int main()
 		{ 0, 0, 2 }, 
 		{ 2, 0, 2 }, 
 		{ 2, 2, 2 }, 
-		{ 0, 2, 2 } });
-
-	testShift(&line, &sqr, &cube);
-	testScaleX(&line, &sqr, &cube);
-	testScaleY(&line, &sqr, &cube);
-	testScaleZ(&line, &sqr, &cube);
-	testScale(&line, &sqr, &cube);
+		{ 0, 2, 2 } 
+		}));
+	testShift(line, sqr, cube);
+	testScaleX(line, sqr, cube);
+	testScaleY(line, sqr, cube);
+	testScaleZ(line, sqr, cube);
+	testScale(line, sqr, cube);
 	constructorTest();
 	return 0;
 }

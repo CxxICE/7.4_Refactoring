@@ -128,12 +128,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="7.4_Refactoring.cpp" />
+    <ClCompile Include="Cube.cpp" />
+    <ClCompile Include="Line.cpp" />
     <ClCompile Include="shape.cpp" />
+    <ClCompile Include="Sqr.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Cube.h" />
+    <ClInclude Include="Line.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="shape.h" />
     <ClInclude Include="ShapeType.h" />
+    <ClInclude Include="Sqr.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
